@@ -1,5 +1,9 @@
 package models
 
+import (
+	"github.com/matheuscamarques/messenger-backend/src/main"
+)
+
 type User struct {
 	Id       int64  `json:"id" db:"id"`
 	Username string `json:"username" db:"username"`
@@ -8,16 +12,16 @@ type User struct {
 
 func (u *User) GetByID(id int64) (*User, error) {
 	user := &User{}
-	err := db.Model(user).Where("id = ?", id).Select()
+	err := main.DBConnection().Model(user).Where("id = ?", id).Select()
 	return user, err
 }
 
 func (u *User) GetByUsername(username string) (*User, error) {
-	err := db.Model(u).Where("username = ?", username).Select()
+	err := main.DBConnection().Model(u).Where("username = ?", username).Select()
 	return u, err
 }
 
 func (u *User) Create() error {
-	_, err := db.Model(u).Insert()
+	_, err := main.DBConnection().Model(u).Insert()
 	return err
 }
